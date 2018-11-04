@@ -12,6 +12,36 @@ namespace NewspaperSellerSimulation
     {
         static Random rnd = new Random();
         /// <summary>
+        /// Calculates a single row in the distribution table
+        /// </summary>
+        /// <param name="Current">The current row</param>
+        /// <param name="Previous">The previous row</param>
+        /// <param name="RandomNumber">The random number that selects a row in the distribution</param>
+        /// <returns>True if random number falls in range of Current row, false otherwise</returns>
+        static private bool CalculateSingleRowDistribution(DayTypeDistribution Current, DayTypeDistribution Previous, int RandomNumber)
+        {
+            if (!Current.IsCalculated)
+            {
+                if (Previous == null)
+                {
+                    Current.CummProbability = Current.Probability;
+                    Current.MinRange = 1;
+                }
+                else
+                {
+                    Current.CummProbability = Current.Probability + Previous.CummProbability;
+                    Current.MinRange = Previous.MaxRange + 1;
+                }
+                Current.MaxRange = (int)Current.CummProbability * 100;
+                Current.IsCalculated = true;
+            }
+            if(RandomNumber <= Current.MaxRange && RandomNumber >= Current.MinRange)
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
         /// Calculates the distribution for a given day type distribution
         /// </summary>
         /// <param name="Distribution">Day type distribution</param>
@@ -21,30 +51,12 @@ namespace NewspaperSellerSimulation
         {
             for (int i = 0; i < Distribution.Count; i++)
             {
-                if (!Distribution[i].IsCalculated)
-                {
-                    if (i == 0)
-                    {
-                        Distribution[i].CummProbability = Distribution[i].Probability;
-                        Distribution[i].MinRange = 1;
-                    }
-                    else
-                    {
-                        Distribution[i].CummProbability = Distribution[i].Probability + Distribution[i - 1].CummProbability;
-                        Distribution[i].MinRange = Distribution[i - 1].MaxRange + 1;
-                    }
-                    Distribution[i].MaxRange = (int)Distribution[i].CummProbability * 100;
-                    Distribution[i].IsCalculated = true;
-                }
-                if (RandomNumber <= Distribution[i].MaxRange && RandomNumber >= Distribution[i].MinRange)
+                if(CalculateSingleRowDistribution(Distribution[i], (i == 0) ? null : Distribution[i - 1], RandomNumber))
                 {
                     return Distribution[i].DayType;
                 }
             }
-            if (RandomNumber < 1 || RandomNumber > 100)
-                throw new ArgumentOutOfRangeException("RandomValue should be between 1 and 100");
-            else
-                throw new Exception("Debug meeeeeeeee");
+            throw new Exception("Couldn't determine day type value");
         }
         /// <summary>
         /// Calculates the distribution for a given demand distribution
@@ -54,43 +66,29 @@ namespace NewspaperSellerSimulation
         /// <returns>The desired value that corrisponds to the given random number</returns>
         static private int CalculateDistribution(List<DemandDistribution> Distribution, Enums.DayType dayType, int RandomNumber)
         {
-            for (int i = 0; i < Distribution.Count; i++)
+            int j = 0;
+            while (j < Distribution[0].DayTypeDistributions.Count)
             {
-                for (int j = 0; j < Distribution[i].DayTypeDistributions.Count; j++)
+                if (Distribution[0].DayTypeDistributions[j].DayType == dayType)
                 {
-                    if (Distribution[i].DayTypeDistributions[j].DayType != dayType)
-                    {
-                        continue;
-                    }
-                    if (!Distribution[i].DayTypeDistributions[j].IsCalculated)
-                    {
-                        if (i == 0)
-                        {
-                            Distribution[i].DayTypeDistributions[j].CummProbability = Distribution[i].DayTypeDistributions[j].Probability;
-                            Distribution[i].DayTypeDistributions[j].MinRange = 1;
-                        }
-                        else
-                        {
-                            Distribution[i].DayTypeDistributions[j].CummProbability =
-                                Distribution[i].DayTypeDistributions[j].Probability +
-                                Distribution[i - 1].DayTypeDistributions[j].CummProbability;
-                            Distribution[i].DayTypeDistributions[j].MinRange = Distribution[i - 1].DayTypeDistributions[j].MaxRange + 1;
-                        }
-                        Distribution[i].DayTypeDistributions[j].MaxRange = (int)Distribution[i].DayTypeDistributions[j].CummProbability * 100;
-                        Distribution[i].DayTypeDistributions[j].IsCalculated = true;
-                    }
-                    if (RandomNumber <= Distribution[i].DayTypeDistributions[j].MaxRange &&
-                        RandomNumber >= Distribution[i].DayTypeDistributions[j].MinRange)
-                    {
-                        return Distribution[i].Demand;
-                    }
                     break;
                 }
+                j++;
             }
-            if (RandomNumber < 1 || RandomNumber > 100)
-                throw new ArgumentOutOfRangeException("RandomValue should be between 1 and 100");
-            else
-                throw new Exception("Debug meeeeeeeee");
+            if (j == Distribution[0].DayTypeDistributions.Count)
+            {
+                throw new ArgumentException("The given day type doesn't exist");
+            }
+            for (int i = 0; i < Distribution.Count; i++)
+            {
+                if (CalculateSingleRowDistribution(Distribution[i].DayTypeDistributions[j],
+                                                   (i == 0) ? null : Distribution[i - 1].DayTypeDistributions[j],
+                                                   RandomNumber))
+                {
+                    return Distribution[i].Demand;
+                }
+            }
+            throw new Exception("Couldn't determine demand value");
         }
         /// <summary>
         /// Calculates the values of a single simulation case
