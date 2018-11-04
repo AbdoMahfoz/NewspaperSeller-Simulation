@@ -94,26 +94,9 @@ namespace NewspaperSellerSimulation
         /// </summary>
         /// <param name="Case">The case that needs to be filled</param>
         /// <param name="system">The entire simulation system</param>
-        static private void SimulationMain(SimulationCase Case, SimulationSystem system)
+        static public void SimulationMain(SimulationCase Case, SimulationSystem system)
         {
             throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Runs all simulation cases asynchronously
-        /// </summary>
-        /// <param name="system">The entire simulation system to be simulated</param>
-        /// <returns></returns>
-        static public async Task StartSimulation(SimulationSystem system)
-        {
-            Task[] tasks = new Task[system.SimulationTable.Count];
-            for (int i = 0; i < system.SimulationTable.Count; i++)
-            {
-                tasks[i] = Task.Run(() =>
-                {
-                    SimulationMain(system.SimulationTable[i], system);
-                });
-            }
-            await Task.WhenAll(tasks);
         }
     }
 }
