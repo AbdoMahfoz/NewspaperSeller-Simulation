@@ -10,6 +10,7 @@ namespace NewspaperSellerSimulation
     /// </summary>
     static class Simulator
     {
+        static Random rnd = new Random();
         /// <summary>
         /// Calculates the distribution for a given day type distribution
         /// </summary>
@@ -78,7 +79,7 @@ namespace NewspaperSellerSimulation
                         Distribution[i].DayTypeDistributions[j].MaxRange = (int)Distribution[i].DayTypeDistributions[j].CummProbability * 100;
                         Distribution[i].DayTypeDistributions[j].IsCalculated = true;
                     }
-                    if (RandomNumber <= Distribution[i].DayTypeDistributions[j].MaxRange && 
+                    if (RandomNumber <= Distribution[i].DayTypeDistributions[j].MaxRange &&
                         RandomNumber >= Distribution[i].DayTypeDistributions[j].MinRange)
                     {
                         return Distribution[i].Demand;
@@ -98,7 +99,20 @@ namespace NewspaperSellerSimulation
         /// <param name="system">The entire simulation system</param>
         static private void SimulationMain(SimulationCase Case, SimulationSystem system)
         {
-            throw new NotImplementedException();
+            Case.RandomNewsDayType = rnd.Next(0, 99);
+            Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
+            Case.RandomDemand = rnd.Next(0, 99);
+            Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
+            Case.SalesProfit = Case.Demand * system.SellingPrice;
+            Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * system.SellingPrice;
+            Case.ScrapProfit = Math.Max(0, system.NumOfNewspapers - Case.Demand) * system.ScrapPrice;
+            Case.DailyCost = system.NumOfNewspapers * system.PurchasePrice;
+            Case.DailyNetProfit = Case.SalesProfit - Case.DailyCost - Case.LostProfit + Case.ScrapProfit;
+            system.PerformanceMeasures.TotalSalesProfit += Case.SalesProfit;
+            system.PerformanceMeasures.TotalLostProfit += Case.LostProfit;
+            system.PerformanceMeasures.TotalScrapProfit += Case.ScrapProfit;
+            system.PerformanceMeasures.TotalCost += Case.DailyCost;
+            system.PerformanceMeasures.TotalNetProfit += Case.DailyNetProfit;
         }
         /// <summary>
         /// Runs all simulation cases asynchronously
