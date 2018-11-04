@@ -8,6 +8,11 @@ namespace NewspaperSellerModels
 {
     public class DayTypeDistribution
     {
+        public DayTypeDistribution()
+        {
+            IsCalculated = false;
+        }
+        public bool IsCalculated { get; set; }
         public Enums.DayType DayType { get; set; }
         public decimal Probability { get; set; }
         public decimal CummProbability { get; set; }
