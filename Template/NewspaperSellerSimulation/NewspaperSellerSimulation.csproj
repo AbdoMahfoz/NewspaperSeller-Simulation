@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NewspaperSellerTesting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLL .net 4\NewspaperSellerTesting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +59,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simulator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -82,10 +87,6 @@
     <ProjectReference Include="..\NewspaperSellerModels\NewspaperSellerModels.csproj">
       <Project>{11540232-cc4d-4dac-a5d1-7e5b46833955}</Project>
       <Name>NewspaperSellerModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NewspaperSellerTesting\NewspaperSellerTesting.csproj">
-      <Project>{A18AD24B-B3ED-4F7A-B082-B1F9622ABCAE}</Project>
-      <Name>NewspaperSellerTesting</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
