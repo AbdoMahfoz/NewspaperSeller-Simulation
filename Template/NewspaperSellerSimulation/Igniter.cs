@@ -20,6 +20,7 @@ namespace NewspaperSellerSimulation
                 m.WaitOne();
                 if (TaskQueue.Count == 0)
                 {
+                    m.ReleaseMutex();
                     break;
                 }
                 else
