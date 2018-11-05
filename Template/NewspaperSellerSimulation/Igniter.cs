@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
 using NewspaperSellerModels;
 
@@ -9,24 +8,24 @@ namespace NewspaperSellerSimulation
     /// <summary>
     /// Ignites the simulation engine sequentially or in parallel
     /// </summary>
-    static class Igniter
+    class Igniter
     {
         /// <summary>
         /// The task queue that worker threads get their work from
         /// </summary>
-        static private Queue<SimulationCase> TaskQueue = new Queue<SimulationCase>();
+        private Queue<SimulationCase> TaskQueue;
         /// <summary>
         /// The simulation system currently in use
         /// </summary>
-        static private SimulationSystem CurrentSystem;
+        private SimulationSystem CurrentSystem;
         /// <summary>
         /// Synchronizes TaskQueue access
         /// </summary>
-        static private Mutex m = new Mutex();
+        private Mutex m;
         /// <summary>
         /// Worker thread function
         /// </summary>
-        static private void ParallelRunHelper()
+        private void ParallelRunHelper()
         {
             int n = 0;
             while (true)
@@ -49,15 +48,24 @@ namespace NewspaperSellerSimulation
             Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
         }
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public Igniter()
+        {
+            m = new Mutex();
+            TaskQueue = new Queue<SimulationCase>();
+            CurrentSystem = null;
+        }
+        /// <summary>
         /// Runs the simulation through multiple threads
         /// </summary>
         /// <param name="system">The system to be simulated</param>
-        static public void ParallelRun(SimulationSystem system)
+        public void ParallelRun(SimulationSystem system)
         {
             CurrentSystem = system;
             m.WaitOne();
             Thread[] threads = new Thread[Environment.ProcessorCount];
-            for(int i = 0; i < Environment.ProcessorCount; i++)
+            for (int i = 0; i < Environment.ProcessorCount; i++)
             {
                 threads[i] = new Thread(new ThreadStart(ParallelRunHelper))
                 {
@@ -65,9 +73,12 @@ namespace NewspaperSellerSimulation
                 };
                 threads[i].Start();
             }
-            for(int i = 0; i < system.NumOfRecords; i++)
+            for (int i = 0; i < system.NumOfRecords; i++)
             {
-                SimulationCase c = new SimulationCase();
+                SimulationCase c = new SimulationCase
+                {
+                    DayNo = i + 1
+                };
                 TaskQueue.Enqueue(c);
                 system.SimulationTable.Add(c);
             }
@@ -81,11 +92,14 @@ namespace NewspaperSellerSimulation
         /// Runs the simulation sequentially
         /// </summary>
         /// <param name="system">The system to be simulated</param>
-        static public void SequntialRun(SimulationSystem system)
+        public void SequntialRun(SimulationSystem system)
         {
-            for(int i = 0; i < system.NumOfRecords; i++)
+            for (int i = 0; i < system.NumOfRecords; i++)
             {
-                SimulationCase c = new SimulationCase();
+                SimulationCase c = new SimulationCase()
+                {
+                    DayNo = i + 1
+                };
                 Simulator.SimulationMain(c, system);
                 system.SimulationTable.Add(c);
             }
