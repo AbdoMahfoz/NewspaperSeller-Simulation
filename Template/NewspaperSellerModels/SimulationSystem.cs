@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NewspaperSellerModels
 {
-    public class SimulationSystem
+    public class SimulationSystem : ICloneable
     {
         public SimulationSystem()
         {
@@ -28,5 +28,10 @@ namespace NewspaperSellerModels
         ///////////// OUTPUTS /////////////
         public List<SimulationCase> SimulationTable { get; set; }
         public PerformanceMeasures PerformanceMeasures { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

@@ -11,9 +11,20 @@ namespace NewspaperSellerSimulation
     static class Simulator
     {
         /// <summary>
+        /// Synchronoizes access to Random number generator
+        /// </summary>
+        static Mutex m = new Mutex();
+        /// <summary>
         /// Random variabel generator
         /// </summary>
-        static Random rnd = new Random();
+        static Random rnd = new Random(12345);
+        /// <summary>
+        /// Resets the internal random generator to produce the same random numbers again
+        /// </summary>
+        static public void ResetRandom()
+        {
+            rnd = new Random(12345);
+        }
         /// <summary>
         /// Calculates a single row in the distribution table
         /// </summary>
@@ -94,15 +105,29 @@ namespace NewspaperSellerSimulation
             throw new Exception("Couldn't determine demand value");
         }
         /// <summary>
-        /// Calculates the values of a single simulation case
+        /// Calculates the values of a single simulation case with the internal random generator
         /// </summary>
         /// <param name="Case">The case that needs to be filled</param>
         /// <param name="system">The entire simulation system</param>
         static public void SimulationMain(SimulationCase Case, SimulationSystem system)
         {
+            SimulationMain(Case, system, rnd);
+        }
+        /// <summary>
+        /// Calculates the values of a single simulation case with specified random generator
+        /// </summary>
+        /// <param name="Case">The case that needs to be filled</param>
+        /// <param name="system">The entire simulation system</param>
+        /// <param name="rnd">The random number generator</param>
+        static public void SimulationMain(SimulationCase Case, SimulationSystem system, Random rnd)
+        {
+            m.WaitOne();
             Case.RandomNewsDayType = rnd.Next(0, 99);
+            m.ReleaseMutex();
             Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
+            m.WaitOne();
             Case.RandomDemand = rnd.Next(0, 99);
+            m.ReleaseMutex();
             Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
             Case.SalesProfit = Case.Demand * system.SellingPrice;
             Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * system.SellingPrice;

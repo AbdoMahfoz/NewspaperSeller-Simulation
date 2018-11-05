@@ -11,6 +11,10 @@ namespace NewspaperSellerSimulation
     class Igniter
     {
         /// <summary>
+        /// the random number generator
+        /// </summary>
+        private Random rnd;
+        /// <summary>
         /// The task queue that worker threads get their work from
         /// </summary>
         private Queue<SimulationCase> TaskQueue;
@@ -43,7 +47,7 @@ namespace NewspaperSellerSimulation
                 }
                 m.ReleaseMutex();
                 n++;
-                Simulator.SimulationMain(c, CurrentSystem);
+                Simulator.SimulationMain(c, CurrentSystem, rnd);
             }
             Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
         }
@@ -60,8 +64,16 @@ namespace NewspaperSellerSimulation
         /// Runs the simulation through multiple threads
         /// </summary>
         /// <param name="system">The system to be simulated</param>
-        public void ParallelRun(SimulationSystem system)
+        public void ParallelRun(SimulationSystem system, Random rnd = null)
         {
+            if(rnd == null)
+            {
+                this.rnd = new Random(12345);
+            }
+            else
+            {
+                this.rnd = rnd;
+            }
             CurrentSystem = system;
             m.WaitOne();
             Thread[] threads = new Thread[Environment.ProcessorCount];
@@ -92,7 +104,7 @@ namespace NewspaperSellerSimulation
         /// Runs the simulation sequentially
         /// </summary>
         /// <param name="system">The system to be simulated</param>
-        public void SequntialRun(SimulationSystem system)
+        static public void SequntialRun(SimulationSystem system, Random rnd = null)
         {
             for (int i = 0; i < system.NumOfRecords; i++)
             {
@@ -100,7 +112,10 @@ namespace NewspaperSellerSimulation
                 {
                     DayNo = i + 1
                 };
-                Simulator.SimulationMain(c, system);
+                if(rnd == null)
+                    Simulator.SimulationMain(c, system);
+                else
+                    Simulator.SimulationMain(c, system, rnd);
                 system.SimulationTable.Add(c);
             }
         }
