@@ -69,7 +69,7 @@ namespace NewspaperSellerSimulation
             {
                 threads[i] = new Thread(new ThreadStart(ParallelRunHelper))
                 {
-                    Name = "Parallel Run #" + i.ToString()
+                    Name = "Parallel Run #" + i.ToString() + " - " + GetHashCode().ToString()
                 };
                 threads[i].Start();
             }
