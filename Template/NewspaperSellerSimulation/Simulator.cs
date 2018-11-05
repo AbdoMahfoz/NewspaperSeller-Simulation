@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading;
 using NewspaperSellerModels;
 
 namespace NewspaperSellerSimulation
@@ -10,6 +10,9 @@ namespace NewspaperSellerSimulation
     /// </summary>
     static class Simulator
     {
+        /// <summary>
+        /// Random variabel generator
+        /// </summary>
         static Random rnd = new Random();
         /// <summary>
         /// Calculates a single row in the distribution table
