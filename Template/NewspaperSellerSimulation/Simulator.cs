@@ -105,22 +105,17 @@ namespace NewspaperSellerSimulation
             throw new Exception("Couldn't determine demand value");
         }
         /// <summary>
-        /// Calculates the values of a single simulation case with the internal random generator
-        /// </summary>
-        /// <param name="Case">The case that needs to be filled</param>
-        /// <param name="system">The entire simulation system</param>
-        static public void SimulationMain(SimulationCase Case, SimulationSystem system)
-        {
-            SimulationMain(Case, system, rnd);
-        }
-        /// <summary>
-        /// Calculates the values of a single simulation case with specified random generator
+        /// Calculates the values of a single simulation case
         /// </summary>
         /// <param name="Case">The case that needs to be filled</param>
         /// <param name="system">The entire simulation system</param>
         /// <param name="rnd">The random number generator</param>
-        static public void SimulationMain(SimulationCase Case, SimulationSystem system, Random rnd)
+        static public void SimulationMain(SimulationCase Case, SimulationSystem system, Random rnd = null)
         {
+            if(rnd == null)
+            {
+                rnd = Simulator.rnd;
+            }
             m.WaitOne();
             Case.RandomNewsDayType = rnd.Next(0, 99);
             m.ReleaseMutex();
@@ -129,6 +124,15 @@ namespace NewspaperSellerSimulation
             Case.RandomDemand = rnd.Next(0, 99);
             m.ReleaseMutex();
             Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
+            ReEvaluateProfit(Case, system);
+        }
+        /// <summary>
+        /// Re-evaluates the profit of the given case using the pre-calculated demand value
+        /// </summary>
+        /// <param name="Case">The simulation case to be re-evaluated</param>
+        /// <param name="system">The entire simulation system</param>
+        static public void ReEvaluateProfit(SimulationCase Case, SimulationSystem system)
+        {
             Case.SalesProfit = Case.Demand * system.SellingPrice;
             Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * system.SellingPrice;
             Case.ScrapProfit = Math.Max(0, system.NumOfNewspapers - Case.Demand) * system.ScrapPrice;
