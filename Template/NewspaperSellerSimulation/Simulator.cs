@@ -109,7 +109,7 @@ namespace NewspaperSellerSimulation
         /// </summary>
         /// <param name="Case">The case that needs to be filled</param>
         /// <param name="system">The entire simulation system</param>
-        /// <param name="rnd">The random number generator</param>
+        /// <param name="rnd">The random number generator, uses the internal random generator if null</param>
         static public void SimulationMain(SimulationCase Case, SimulationSystem system, Random rnd = null)
         {
             if(rnd == null)

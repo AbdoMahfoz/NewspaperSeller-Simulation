@@ -27,6 +27,10 @@ namespace NewspaperSellerSimulation
         /// </summary>
         private Mutex m;
         /// <summary>
+        /// Descripes wether this parallel run is a full run or re-evaluation run
+        /// </summary>
+        private Enums.RunningMode RunningMode;
+        /// <summary>
         /// Worker thread function
         /// </summary>
         private void ParallelRunHelper()
@@ -47,10 +51,10 @@ namespace NewspaperSellerSimulation
                 }
                 m.ReleaseMutex();
                 n++;
-                if (rnd == null)
-                    Simulator.SimulationMain(c, CurrentSystem);
-                else
+                if (RunningMode == Enums.RunningMode.FullRun)
                     Simulator.SimulationMain(c, CurrentSystem, rnd);
+                else
+                    Simulator.ReEvaluateProfit(c, CurrentSystem);
             }
             Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
         }
@@ -104,7 +108,12 @@ namespace NewspaperSellerSimulation
         /// <param name="rnd">Random number generator instance</param>
         static public void ParallelRun(SimulationSystem system, Random rnd = null)
         {
-            new Igniter().ParallelRunStarter(system, rnd);
+            new Igniter() { RunningMode = Enums.RunningMode.FullRun }.ParallelRunStarter(system, rnd);
+        }
+        static public void ParallelReEvaluationRun(SimulationSystem system)
+        {
+            system.PerformanceMeasures = new PerformanceMeasures();
+            new Igniter() { RunningMode = Enums.RunningMode.ReEvaluationRun }.ParallelRunStarter(system);
         }
         /// <summary>
         /// Runs the simulation sequentially
@@ -118,10 +127,7 @@ namespace NewspaperSellerSimulation
                 {
                     DayNo = i + 1
                 };
-                if(rnd == null)
-                    Simulator.SimulationMain(c, system);
-                else
-                    Simulator.SimulationMain(c, system, rnd);
+                Simulator.SimulationMain(c, system, rnd);
                 system.SimulationTable.Add(c);
             }
         }
