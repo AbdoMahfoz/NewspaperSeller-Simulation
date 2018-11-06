@@ -31,7 +31,12 @@ namespace NewspaperSellerModels
 
         public object Clone()
         {
-            return MemberwiseClone();
+            SimulationSystem system = MemberwiseClone() as SimulationSystem;
+            system.DayTypeDistributions = new List<DayTypeDistribution>(DayTypeDistributions);
+            system.DemandDistributions = new List<DemandDistribution>(DemandDistributions);
+            system.SimulationTable = new List<SimulationCase>(SimulationTable);
+            system.PerformanceMeasures = PerformanceMeasures.Clone() as PerformanceMeasures;
+            return system;
         }
     }
 }
