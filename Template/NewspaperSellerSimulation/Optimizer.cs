@@ -66,11 +66,11 @@ namespace NewspaperSellerSimulation
                 {
                     Task.Run(()=>
                     {
-                        new Igniter().ParallelRun(LeftSystem, new System.Random(12345));
+                        Igniter.ParallelRun(LeftSystem, new System.Random(12345));
                     }),
                     Task.Run(()=>
                     {
-                        new Igniter().ParallelRun(RightSystem, new System.Random(12345));
+                        Igniter.ParallelRun(RightSystem, new System.Random(12345));
                     })
                 };
                 Task.WaitAll(tasks);

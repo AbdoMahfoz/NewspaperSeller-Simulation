@@ -47,33 +47,30 @@ namespace NewspaperSellerSimulation
                 }
                 m.ReleaseMutex();
                 n++;
-                Simulator.SimulationMain(c, CurrentSystem, rnd);
+                if (rnd == null)
+                    Simulator.SimulationMain(c, CurrentSystem);
+                else
+                    Simulator.SimulationMain(c, CurrentSystem, rnd);
             }
             Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
         }
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Igniter()
+        private Igniter()
         {
             m = new Mutex();
             TaskQueue = new Queue<SimulationCase>();
             CurrentSystem = null;
         }
         /// <summary>
-        /// Runs the simulation through multiple threads
+        /// Runs the simulation concurrently for this instance of Igniter class
         /// </summary>
-        /// <param name="system">The system to be simulated</param>
-        public void ParallelRun(SimulationSystem system, Random rnd = null)
+        /// <param name="system">System to be simulated</param>
+        /// <param name="rnd">Random number generator instance</param>
+        private void ParallelRunStarter(SimulationSystem system, Random rnd = null)
         {
-            if(rnd == null)
-            {
-                this.rnd = new Random(12345);
-            }
-            else
-            {
-                this.rnd = rnd;
-            }
+            this.rnd = rnd;
             CurrentSystem = system;
             m.WaitOne();
             Thread[] threads = new Thread[Environment.ProcessorCount];
@@ -99,6 +96,15 @@ namespace NewspaperSellerSimulation
             {
                 t.Join();
             }
+        }
+        /// <summary>
+        /// Runs the simulation through multiple threads
+        /// </summary>
+        /// <param name="system">The system to be simulated</param>
+        /// <param name="rnd">Random number generator instance</param>
+        static public void ParallelRun(SimulationSystem system, Random rnd = null)
+        {
+            new Igniter().ParallelRunStarter(system, rnd);
         }
         /// <summary>
         /// Runs the simulation sequentially
