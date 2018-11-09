@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using NewspaperSellerModels;
+using NewspaperSellerTesting;
 
 namespace NewspaperSellerSimulation
 {
@@ -136,6 +138,32 @@ namespace NewspaperSellerSimulation
             StreamWriter writer = new StreamWriter(file);
             writer.Write(ToString(system));
             writer.Close();
+        }
+        /// <summary>
+        /// Runs all test cases in TestCases folder
+        /// </summary>
+        /// <returns>Result of running all of the testcases</returns>
+        static public string RunAllTestCases()
+        {
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory().ToString()).ToString()) + "\\TestCases\\";
+            StringBuilder builder = new StringBuilder();
+            Stopwatch watch = new Stopwatch();
+            int i = 1;
+            foreach(string file in Directory.EnumerateFiles(path))
+            {
+                string fileName = file.Substring(file.LastIndexOf('\\') + 1);
+                if (fileName.Contains("TestCase"))
+                {
+                    builder.AppendLine("---TestCase #" + i++);
+                    SimulationSystem system = FromFile(file);
+                    watch.Restart();
+                    Igniter.ParallelRun(system);
+                    watch.Stop();
+                    builder.AppendLine(TestingManager.Test(system, fileName)
+                                     + "\nTime = " + watch.ElapsedMilliseconds + "ms");
+                }
+            }
+            return builder.ToString().Trim();
         }
     }
 }
