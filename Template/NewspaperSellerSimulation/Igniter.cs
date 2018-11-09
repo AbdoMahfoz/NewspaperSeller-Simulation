@@ -15,57 +15,48 @@ namespace NewspaperSellerSimulation
         /// </summary>
         private Random rnd;
         /// <summary>
-        /// The task queue that worker threads get their work from
-        /// </summary>
-        private Queue<SimulationCase> TaskQueue;
-        /// <summary>
         /// The simulation system currently in use
         /// </summary>
         private SimulationSystem CurrentSystem;
-        /// <summary>
-        /// Synchronizes TaskQueue access
-        /// </summary>
-        private Mutex m;
         /// <summary>
         /// Descripes wether this parallel run is a full run or re-evaluation run
         /// </summary>
         private Enums.RunningMode RunningMode;
         /// <summary>
+        /// Work list in which all threads write their work
+        /// </summary>
+        private SimulationCase[] WorkList;
+        /// <summary>
         /// Default constructor
         /// </summary>
         private Igniter()
         {
-            m = new Mutex();
-            TaskQueue = new Queue<SimulationCase>();
+            WorkList = null;
             CurrentSystem = null;
         }
         /// <summary>
         /// Worker thread function
         /// </summary>
-        private void ParallelRunHelper()
+        private void ParallelRunHelper(object num)
         {
-            int n = 0;
-            while (true)
+            int i = (int)num;
+            while (i < CurrentSystem.NumOfRecords)
             {
-                SimulationCase c;
-                m.WaitOne();
-                if (TaskQueue.Count == 0)
+                if(RunningMode == Enums.RunningMode.FullRun)
                 {
-                    m.ReleaseMutex();
-                    break;
-                }
-                else
-                {
-                    c = TaskQueue.Dequeue();
-                }
-                m.ReleaseMutex();
-                n++;
-                if (RunningMode == Enums.RunningMode.FullRun)
+                    SimulationCase c = new SimulationCase()
+                    {
+                        DayNo = i + 1
+                    };
                     Simulator.SimulationMain(c, CurrentSystem, rnd);
+                    WorkList[i] = c;
+                }
                 else
-                    Simulator.ReEvaluateProfit(c, CurrentSystem);
+                {
+                    Simulator.ReEvaluateProfit(CurrentSystem.SimulationTable[i], CurrentSystem);
+                }
+                i += Environment.ProcessorCount;
             }
-            Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
         }
         /// <summary>
         /// Runs the simulation concurrently for this instance of Igniter class
@@ -76,29 +67,26 @@ namespace NewspaperSellerSimulation
         {
             this.rnd = rnd;
             CurrentSystem = system;
-            m.WaitOne();
+            if(RunningMode == Enums.RunningMode.FullRun)
+            {
+                WorkList = new SimulationCase[CurrentSystem.NumOfRecords];
+            }
             Thread[] threads = new Thread[Environment.ProcessorCount];
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
-                threads[i] = new Thread(new ThreadStart(ParallelRunHelper))
+                threads[i] = new Thread(new ParameterizedThreadStart(ParallelRunHelper))
                 {
                     Name = "Parallel Run #" + i.ToString() + " - " + GetHashCode().ToString()
                 };
-                threads[i].Start();
+                threads[i].Start(i);
             }
-            for (int i = 0; i < system.NumOfRecords; i++)
-            {
-                SimulationCase c = new SimulationCase
-                {
-                    DayNo = i + 1
-                };
-                TaskQueue.Enqueue(c);
-                system.SimulationTable.Add(c);
-            }
-            m.ReleaseMutex();
             foreach (Thread t in threads)
             {
                 t.Join();
+            }
+            if(RunningMode == Enums.RunningMode.FullRun)
+            {
+                CurrentSystem.SimulationTable = new List<SimulationCase>(WorkList);
             }
         }
         /// <summary>
@@ -111,9 +99,9 @@ namespace NewspaperSellerSimulation
             new Igniter() { RunningMode = Enums.RunningMode.FullRun }.ParallelRunStarter(system, rnd);
         }
         /// <summary>
-        /// 
+        /// Re-evaluates concurrently the system profit based on the pre-determined demand values
         /// </summary>
-        /// <param name="system"></param>
+        /// <param name="system">The system to be re-evaluated</param>
         static public void ParallelReEvaluationRun(SimulationSystem system)
         {
             system.PerformanceMeasures = new PerformanceMeasures();
@@ -133,6 +121,18 @@ namespace NewspaperSellerSimulation
                 };
                 Simulator.SimulationMain(c, system, rnd);
                 system.SimulationTable.Add(c);
+            }
+        }
+        /// <summary>
+        /// Re-evalutes sequntially the system's profit based on predetermined demand values
+        /// </summary>
+        /// <param name="system">The system to be re-evaluated</param>
+        static public void SequntialReEvaluationRun(SimulationSystem system)
+        {
+            system.PerformanceMeasures = new PerformanceMeasures();
+            foreach(SimulationCase c in system.SimulationTable)
+            {
+                Simulator.ReEvaluateProfit(c, system);
             }
         }
     }

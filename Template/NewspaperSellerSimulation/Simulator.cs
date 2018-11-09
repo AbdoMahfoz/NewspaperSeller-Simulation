@@ -11,11 +11,6 @@ namespace NewspaperSellerSimulation
     static class Simulator
     {
         /// <summary>
-        /// Synchronoizes access to Random number generator
-        /// </summary>
-        static Mutex m = new Mutex();
-        static Mutex m2 = new Mutex();
-        /// <summary>
         /// Random variabel generator
         /// </summary>
         static Random rnd = new Random(12345);
@@ -117,13 +112,9 @@ namespace NewspaperSellerSimulation
             {
                 rnd = Simulator.rnd;
             }
-            m.WaitOne();
             Case.RandomNewsDayType = rnd.Next(1, 100);
-            m.ReleaseMutex();
-            Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
-            m.WaitOne();
             Case.RandomDemand = rnd.Next(1, 100);
-            m.ReleaseMutex();
+            Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
             Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
             ReEvaluateProfit(Case, system);
         }
@@ -139,21 +130,22 @@ namespace NewspaperSellerSimulation
             Case.ScrapProfit = Math.Max(0, system.NumOfNewspapers - Case.Demand) * system.ScrapPrice;
             Case.DailyCost = system.NumOfNewspapers * system.PurchasePrice;
             Case.DailyNetProfit = Case.SalesProfit - Case.DailyCost - Case.LostProfit + Case.ScrapProfit;
-            m2.WaitOne();
-            system.PerformanceMeasures.TotalSalesProfit += Case.SalesProfit;
-            system.PerformanceMeasures.TotalLostProfit += Case.LostProfit;
-            system.PerformanceMeasures.TotalScrapProfit += Case.ScrapProfit;
-            system.PerformanceMeasures.TotalCost += Case.DailyCost;
-            system.PerformanceMeasures.TotalNetProfit += Case.DailyNetProfit;
-            if(Case.Demand > system.NumOfNewspapers)
+            lock (system)
             {
-                system.PerformanceMeasures.DaysWithMoreDemand++;
+                system.PerformanceMeasures.TotalSalesProfit += Case.SalesProfit;
+                system.PerformanceMeasures.TotalLostProfit += Case.LostProfit;
+                system.PerformanceMeasures.TotalScrapProfit += Case.ScrapProfit;
+                system.PerformanceMeasures.TotalCost += Case.DailyCost;
+                system.PerformanceMeasures.TotalNetProfit += Case.DailyNetProfit;
+                if (Case.Demand > system.NumOfNewspapers)
+                {
+                    system.PerformanceMeasures.DaysWithMoreDemand++;
+                }
+                if (Case.Demand < system.NumOfNewspapers)
+                {
+                    system.PerformanceMeasures.DaysWithUnsoldPapers++;
+                }
             }
-            if(Case.Demand < system.NumOfNewspapers)
-            {
-                system.PerformanceMeasures.DaysWithUnsoldPapers++;
-            }
-            m2.ReleaseMutex();
         }
     }
 }
