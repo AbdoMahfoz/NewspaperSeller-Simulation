@@ -16,15 +16,6 @@ namespace NewspaperSellerSimulation
         public Form1()
         {
             InitializeComponent();
-
-
-
-
-            var system = TestingManager.GetReferenceSystem(Constants.FileNames.TestCase1);
-
-
-            var result = TestingManager.Test(system, Constants.FileNames.TestCase1);
-            MessageBox.Show(result);
         }
     }
 }

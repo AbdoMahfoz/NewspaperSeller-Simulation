@@ -57,7 +57,7 @@ namespace NewspaperSellerSimulation
                     case "DemandDistributions":
                         {
                             string line;
-                            while (string.IsNullOrWhiteSpace(line = reader.ReadLine()))
+                            while (!string.IsNullOrWhiteSpace(line = reader.ReadLine()))
                             {
                                 decimal[] arr = Array.ConvertAll(line.Split(','), decimal.Parse);
                                 DemandDistribution demand = new DemandDistribution()

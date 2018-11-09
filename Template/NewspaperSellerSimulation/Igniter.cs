@@ -31,6 +31,15 @@ namespace NewspaperSellerSimulation
         /// </summary>
         private Enums.RunningMode RunningMode;
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        private Igniter()
+        {
+            m = new Mutex();
+            TaskQueue = new Queue<SimulationCase>();
+            CurrentSystem = null;
+        }
+        /// <summary>
         /// Worker thread function
         /// </summary>
         private void ParallelRunHelper()
@@ -57,15 +66,6 @@ namespace NewspaperSellerSimulation
                     Simulator.ReEvaluateProfit(c, CurrentSystem);
             }
             Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
-        }
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        private Igniter()
-        {
-            m = new Mutex();
-            TaskQueue = new Queue<SimulationCase>();
-            CurrentSystem = null;
         }
         /// <summary>
         /// Runs the simulation concurrently for this instance of Igniter class
@@ -110,6 +110,10 @@ namespace NewspaperSellerSimulation
         {
             new Igniter() { RunningMode = Enums.RunningMode.FullRun }.ParallelRunStarter(system, rnd);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="system"></param>
         static public void ParallelReEvaluationRun(SimulationSystem system)
         {
             system.PerformanceMeasures = new PerformanceMeasures();

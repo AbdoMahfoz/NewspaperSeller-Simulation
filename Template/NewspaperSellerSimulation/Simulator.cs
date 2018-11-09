@@ -14,6 +14,7 @@ namespace NewspaperSellerSimulation
         /// Synchronoizes access to Random number generator
         /// </summary>
         static Mutex m = new Mutex();
+        static Mutex m2 = new Mutex();
         /// <summary>
         /// Random variabel generator
         /// </summary>
@@ -46,7 +47,7 @@ namespace NewspaperSellerSimulation
                     Current.CummProbability = Current.Probability + Previous.CummProbability;
                     Current.MinRange = Previous.MaxRange + 1;
                 }
-                Current.MaxRange = (int)Current.CummProbability * 100;
+                Current.MaxRange = (int)(Current.CummProbability * 100);
                 Current.IsCalculated = true;
             }
             if(RandomNumber <= Current.MaxRange && RandomNumber >= Current.MinRange)
@@ -117,11 +118,11 @@ namespace NewspaperSellerSimulation
                 rnd = Simulator.rnd;
             }
             m.WaitOne();
-            Case.RandomNewsDayType = rnd.Next(0, 99);
+            Case.RandomNewsDayType = rnd.Next(1, 100);
             m.ReleaseMutex();
             Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
             m.WaitOne();
-            Case.RandomDemand = rnd.Next(0, 99);
+            Case.RandomDemand = rnd.Next(1, 100);
             m.ReleaseMutex();
             Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
             ReEvaluateProfit(Case, system);
@@ -133,16 +134,26 @@ namespace NewspaperSellerSimulation
         /// <param name="system">The entire simulation system</param>
         static public void ReEvaluateProfit(SimulationCase Case, SimulationSystem system)
         {
-            Case.SalesProfit = Case.Demand * system.SellingPrice;
-            Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * system.SellingPrice;
+            Case.SalesProfit = Math.Min(system.NumOfNewspapers, Case.Demand) * system.SellingPrice;
+            Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * (system.SellingPrice - system.PurchasePrice);
             Case.ScrapProfit = Math.Max(0, system.NumOfNewspapers - Case.Demand) * system.ScrapPrice;
             Case.DailyCost = system.NumOfNewspapers * system.PurchasePrice;
             Case.DailyNetProfit = Case.SalesProfit - Case.DailyCost - Case.LostProfit + Case.ScrapProfit;
+            m2.WaitOne();
             system.PerformanceMeasures.TotalSalesProfit += Case.SalesProfit;
             system.PerformanceMeasures.TotalLostProfit += Case.LostProfit;
             system.PerformanceMeasures.TotalScrapProfit += Case.ScrapProfit;
             system.PerformanceMeasures.TotalCost += Case.DailyCost;
             system.PerformanceMeasures.TotalNetProfit += Case.DailyNetProfit;
+            if(Case.Demand > system.NumOfNewspapers)
+            {
+                system.PerformanceMeasures.DaysWithMoreDemand++;
+            }
+            if(Case.Demand < system.NumOfNewspapers)
+            {
+                system.PerformanceMeasures.DaysWithUnsoldPapers++;
+            }
+            m2.ReleaseMutex();
         }
     }
 }
