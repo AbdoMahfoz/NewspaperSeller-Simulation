@@ -46,14 +46,15 @@
             this.FairProbability = new System.Windows.Forms.NumericUpDown();
             this.PoorProbabilty = new System.Windows.Forms.NumericUpDown();
             this.DemandDistributionGrid = new System.Windows.Forms.DataGridView();
-            this.StartSimulationButton = new System.Windows.Forms.Button();
-            this.AutomaticTestingButton = new System.Windows.Forms.Button();
-            this.LoadFromFileButton = new System.Windows.Forms.Button();
-            this.ExportToFileButton = new System.Windows.Forms.Button();
             this.Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.goodP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fairP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.poorP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartSimulationButton = new System.Windows.Forms.Button();
+            this.AutomaticTestingButton = new System.Windows.Forms.Button();
+            this.LoadFromFileButton = new System.Windows.Forms.Button();
+            this.ExportToFileButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NumOfNewsPapers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumofRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PurchasePrice)).BeginInit();
@@ -336,47 +337,6 @@
             this.DemandDistributionGrid.Size = new System.Drawing.Size(305, 123);
             this.DemandDistributionGrid.TabIndex = 17;
             // 
-            // StartSimulationButton
-            // 
-            this.StartSimulationButton.Location = new System.Drawing.Point(319, 133);
-            this.StartSimulationButton.Margin = new System.Windows.Forms.Padding(2);
-            this.StartSimulationButton.Name = "StartSimulationButton";
-            this.StartSimulationButton.Size = new System.Drawing.Size(134, 28);
-            this.StartSimulationButton.TabIndex = 18;
-            this.StartSimulationButton.Text = "Start Simulation";
-            this.StartSimulationButton.UseVisualStyleBackColor = true;
-            this.StartSimulationButton.Click += new System.EventHandler(this.StartSimulationButton_Click);
-            // 
-            // AutomaticTestingButton
-            // 
-            this.AutomaticTestingButton.Location = new System.Drawing.Point(319, 164);
-            this.AutomaticTestingButton.Margin = new System.Windows.Forms.Padding(2);
-            this.AutomaticTestingButton.Name = "AutomaticTestingButton";
-            this.AutomaticTestingButton.Size = new System.Drawing.Size(134, 28);
-            this.AutomaticTestingButton.TabIndex = 19;
-            this.AutomaticTestingButton.Text = "Automatic Testing";
-            this.AutomaticTestingButton.UseVisualStyleBackColor = true;
-            // 
-            // LoadFromFileButton
-            // 
-            this.LoadFromFileButton.Location = new System.Drawing.Point(319, 196);
-            this.LoadFromFileButton.Margin = new System.Windows.Forms.Padding(2);
-            this.LoadFromFileButton.Name = "LoadFromFileButton";
-            this.LoadFromFileButton.Size = new System.Drawing.Size(134, 28);
-            this.LoadFromFileButton.TabIndex = 20;
-            this.LoadFromFileButton.Text = "Load From File";
-            this.LoadFromFileButton.UseVisualStyleBackColor = true;
-            // 
-            // ExportToFileButton
-            // 
-            this.ExportToFileButton.Location = new System.Drawing.Point(319, 228);
-            this.ExportToFileButton.Margin = new System.Windows.Forms.Padding(2);
-            this.ExportToFileButton.Name = "ExportToFileButton";
-            this.ExportToFileButton.Size = new System.Drawing.Size(134, 28);
-            this.ExportToFileButton.TabIndex = 21;
-            this.ExportToFileButton.Text = "Export To File";
-            this.ExportToFileButton.UseVisualStyleBackColor = true;
-            // 
             // Demand
             // 
             this.Demand.HeaderText = "Demand";
@@ -401,6 +361,61 @@
             this.poorP.Name = "poorP";
             this.poorP.Width = 61;
             // 
+            // StartSimulationButton
+            // 
+            this.StartSimulationButton.Location = new System.Drawing.Point(319, 133);
+            this.StartSimulationButton.Margin = new System.Windows.Forms.Padding(2);
+            this.StartSimulationButton.Name = "StartSimulationButton";
+            this.StartSimulationButton.Size = new System.Drawing.Size(134, 28);
+            this.StartSimulationButton.TabIndex = 18;
+            this.StartSimulationButton.Text = "Start Simulation";
+            this.StartSimulationButton.UseVisualStyleBackColor = true;
+            this.StartSimulationButton.Click += new System.EventHandler(this.StartSimulationButton_Click);
+            // 
+            // AutomaticTestingButton
+            // 
+            this.AutomaticTestingButton.Location = new System.Drawing.Point(319, 164);
+            this.AutomaticTestingButton.Margin = new System.Windows.Forms.Padding(2);
+            this.AutomaticTestingButton.Name = "AutomaticTestingButton";
+            this.AutomaticTestingButton.Size = new System.Drawing.Size(134, 28);
+            this.AutomaticTestingButton.TabIndex = 19;
+            this.AutomaticTestingButton.Text = "Automatic Testing";
+            this.AutomaticTestingButton.UseVisualStyleBackColor = true;
+            this.AutomaticTestingButton.Click += new System.EventHandler(this.AutomaticTestingButton_Click);
+            // 
+            // LoadFromFileButton
+            // 
+            this.LoadFromFileButton.Location = new System.Drawing.Point(319, 196);
+            this.LoadFromFileButton.Margin = new System.Windows.Forms.Padding(2);
+            this.LoadFromFileButton.Name = "LoadFromFileButton";
+            this.LoadFromFileButton.Size = new System.Drawing.Size(134, 28);
+            this.LoadFromFileButton.TabIndex = 20;
+            this.LoadFromFileButton.Text = "Load From File";
+            this.LoadFromFileButton.UseVisualStyleBackColor = true;
+            this.LoadFromFileButton.Click += new System.EventHandler(this.LoadFromFileButton_Click);
+            // 
+            // ExportToFileButton
+            // 
+            this.ExportToFileButton.Location = new System.Drawing.Point(319, 228);
+            this.ExportToFileButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ExportToFileButton.Name = "ExportToFileButton";
+            this.ExportToFileButton.Size = new System.Drawing.Size(134, 28);
+            this.ExportToFileButton.TabIndex = 21;
+            this.ExportToFileButton.Text = "Export To File";
+            this.ExportToFileButton.UseVisualStyleBackColor = true;
+            this.ExportToFileButton.Click += new System.EventHandler(this.ExportToFileButton_Click);
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.Location = new System.Drawing.Point(319, 257);
+            this.ClearButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(134, 28);
+            this.ClearButton.TabIndex = 22;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -408,6 +423,7 @@
             this.BackgroundImage = global::NewspaperSellerSimulation.Properties.Resources.preview_;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(838, 410);
+            this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.ExportToFileButton);
             this.Controls.Add(this.LoadFromFileButton);
             this.Controls.Add(this.AutomaticTestingButton);
@@ -476,5 +492,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn goodP;
         private System.Windows.Forms.DataGridViewTextBoxColumn fairP;
         private System.Windows.Forms.DataGridViewTextBoxColumn poorP;
+        private System.Windows.Forms.Button ClearButton;
     }
 }
