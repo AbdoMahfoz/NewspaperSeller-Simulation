@@ -1,6 +1,6 @@
 ﻿namespace NewspaperSellerSimulation
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -46,14 +46,14 @@
             this.FairProbability = new System.Windows.Forms.NumericUpDown();
             this.PoorProbabilty = new System.Windows.Forms.NumericUpDown();
             this.DemandDistributionGrid = new System.Windows.Forms.DataGridView();
-            this.Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fairP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.poorP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StartSimulationButton = new System.Windows.Forms.Button();
             this.AutomaticTestingButton = new System.Windows.Forms.Button();
             this.LoadFromFileButton = new System.Windows.Forms.Button();
             this.ExportToFileButton = new System.Windows.Forms.Button();
+            this.Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fairP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.poorP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.NumOfNewsPapers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumofRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PurchasePrice)).BeginInit();
@@ -137,7 +137,7 @@
             // 
             this.NumOfNewsPapers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NumOfNewsPapers.Location = new System.Drawing.Point(259, 136);
-            this.NumOfNewsPapers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NumOfNewsPapers.Margin = new System.Windows.Forms.Padding(2);
             this.NumOfNewsPapers.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -151,7 +151,7 @@
             // 
             this.NumofRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NumofRecords.Location = new System.Drawing.Point(259, 159);
-            this.NumofRecords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NumofRecords.Margin = new System.Windows.Forms.Padding(2);
             this.NumofRecords.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -171,7 +171,7 @@
             0,
             131072});
             this.PurchasePrice.Location = new System.Drawing.Point(259, 180);
-            this.PurchasePrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PurchasePrice.Margin = new System.Windows.Forms.Padding(2);
             this.PurchasePrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -191,7 +191,7 @@
             0,
             131072});
             this.ScrapPrice.Location = new System.Drawing.Point(259, 203);
-            this.ScrapPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ScrapPrice.Margin = new System.Windows.Forms.Padding(2);
             this.ScrapPrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -211,7 +211,7 @@
             0,
             131072});
             this.SellingPrice.Location = new System.Drawing.Point(259, 227);
-            this.SellingPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SellingPrice.Margin = new System.Windows.Forms.Padding(2);
             this.SellingPrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -267,7 +267,7 @@
             0,
             131072});
             this.GoodProbability.Location = new System.Drawing.Point(233, 291);
-            this.GoodProbability.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GoodProbability.Margin = new System.Windows.Forms.Padding(2);
             this.GoodProbability.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -287,7 +287,7 @@
             0,
             131072});
             this.FairProbability.Location = new System.Drawing.Point(430, 289);
-            this.FairProbability.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FairProbability.Margin = new System.Windows.Forms.Padding(2);
             this.FairProbability.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -307,7 +307,7 @@
             0,
             131072});
             this.PoorProbabilty.Location = new System.Drawing.Point(658, 289);
-            this.PoorProbabilty.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PoorProbabilty.Margin = new System.Windows.Forms.Padding(2);
             this.PoorProbabilty.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -329,46 +329,28 @@
             this.poorP});
             this.DemandDistributionGrid.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.DemandDistributionGrid.Location = new System.Drawing.Point(462, 133);
-            this.DemandDistributionGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DemandDistributionGrid.Margin = new System.Windows.Forms.Padding(2);
             this.DemandDistributionGrid.Name = "DemandDistributionGrid";
             this.DemandDistributionGrid.RowTemplate.Height = 28;
-            this.DemandDistributionGrid.Size = new System.Drawing.Size(296, 123);
+            this.DemandDistributionGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.DemandDistributionGrid.Size = new System.Drawing.Size(305, 123);
             this.DemandDistributionGrid.TabIndex = 17;
-            // 
-            // Demand
-            // 
-            this.Demand.HeaderText = "Demand";
-            this.Demand.Name = "Demand";
-            // 
-            // goodP
-            // 
-            this.goodP.HeaderText = "Good Probability  ";
-            this.goodP.Name = "goodP";
-            // 
-            // fairP
-            // 
-            this.fairP.HeaderText = "Fair Probability";
-            this.fairP.Name = "fairP";
-            // 
-            // poorP
-            // 
-            this.poorP.HeaderText = "Poor Probability";
-            this.poorP.Name = "poorP";
             // 
             // StartSimulationButton
             // 
             this.StartSimulationButton.Location = new System.Drawing.Point(319, 133);
-            this.StartSimulationButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StartSimulationButton.Margin = new System.Windows.Forms.Padding(2);
             this.StartSimulationButton.Name = "StartSimulationButton";
             this.StartSimulationButton.Size = new System.Drawing.Size(134, 28);
             this.StartSimulationButton.TabIndex = 18;
             this.StartSimulationButton.Text = "Start Simulation";
             this.StartSimulationButton.UseVisualStyleBackColor = true;
+            this.StartSimulationButton.Click += new System.EventHandler(this.StartSimulationButton_Click);
             // 
             // AutomaticTestingButton
             // 
             this.AutomaticTestingButton.Location = new System.Drawing.Point(319, 164);
-            this.AutomaticTestingButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AutomaticTestingButton.Margin = new System.Windows.Forms.Padding(2);
             this.AutomaticTestingButton.Name = "AutomaticTestingButton";
             this.AutomaticTestingButton.Size = new System.Drawing.Size(134, 28);
             this.AutomaticTestingButton.TabIndex = 19;
@@ -378,7 +360,7 @@
             // LoadFromFileButton
             // 
             this.LoadFromFileButton.Location = new System.Drawing.Point(319, 196);
-            this.LoadFromFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LoadFromFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.LoadFromFileButton.Name = "LoadFromFileButton";
             this.LoadFromFileButton.Size = new System.Drawing.Size(134, 28);
             this.LoadFromFileButton.TabIndex = 20;
@@ -388,14 +370,38 @@
             // ExportToFileButton
             // 
             this.ExportToFileButton.Location = new System.Drawing.Point(319, 228);
-            this.ExportToFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ExportToFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.ExportToFileButton.Name = "ExportToFileButton";
             this.ExportToFileButton.Size = new System.Drawing.Size(134, 28);
             this.ExportToFileButton.TabIndex = 21;
             this.ExportToFileButton.Text = "Export To File";
             this.ExportToFileButton.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // Demand
+            // 
+            this.Demand.HeaderText = "Demand";
+            this.Demand.Name = "Demand";
+            this.Demand.Width = 61;
+            // 
+            // goodP
+            // 
+            this.goodP.HeaderText = "Good Probability  ";
+            this.goodP.Name = "goodP";
+            this.goodP.Width = 61;
+            // 
+            // fairP
+            // 
+            this.fairP.HeaderText = "Fair Probability";
+            this.fairP.Name = "fairP";
+            this.fairP.Width = 61;
+            // 
+            // poorP
+            // 
+            this.poorP.HeaderText = "Poor Probability";
+            this.poorP.Name = "poorP";
+            this.poorP.Width = 61;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -424,9 +430,10 @@
             this.Controls.Add(this.PurchasePriceLabel);
             this.Controls.Add(this.NumberOfRecordsLabel);
             this.Controls.Add(this.NumberOfNewspapersLabel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "MainForm";
+            this.Text = "Newspaper Simualtor";
             ((System.ComponentModel.ISupportInitialize)(this.NumOfNewsPapers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumofRecords)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PurchasePrice)).EndInit();
@@ -461,13 +468,13 @@
         private System.Windows.Forms.NumericUpDown FairProbability;
         private System.Windows.Forms.NumericUpDown PoorProbabilty;
         private System.Windows.Forms.DataGridView DemandDistributionGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Demand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn goodP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fairP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn poorP;
         private System.Windows.Forms.Button StartSimulationButton;
         private System.Windows.Forms.Button AutomaticTestingButton;
         private System.Windows.Forms.Button LoadFromFileButton;
         private System.Windows.Forms.Button ExportToFileButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Demand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn goodP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fairP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn poorP;
     }
 }
