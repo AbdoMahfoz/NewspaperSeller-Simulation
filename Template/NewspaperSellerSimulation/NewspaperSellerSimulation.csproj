@@ -96,6 +96,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="preview-.jpg" />
     <Content Include="TestCases\ReadMe.txt" />
     <Content Include="TestCases\TestCase1.txt" />
     <Content Include="TestCases\TestCase2.txt" />

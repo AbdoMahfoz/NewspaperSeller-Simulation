@@ -28,28 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.NumberOfNewspapersLabel = new System.Windows.Forms.Label();
+            this.NumberOfRecordsLabel = new System.Windows.Forms.Label();
+            this.PurchasePriceLabel = new System.Windows.Forms.Label();
+            this.ScrapPriceLabel = new System.Windows.Forms.Label();
+            this.SellingPriceLabel = new System.Windows.Forms.Label();
+            this.DayTypeLabel = new System.Windows.Forms.Label();
             this.NumOfNewsPapers = new System.Windows.Forms.NumericUpDown();
             this.NumofRecords = new System.Windows.Forms.NumericUpDown();
             this.PurchasePrice = new System.Windows.Forms.NumericUpDown();
             this.ScrapPrice = new System.Windows.Forms.NumericUpDown();
             this.SellingPrice = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.GoodProbabilityLabel = new System.Windows.Forms.Label();
+            this.FairProbabiltyLabel = new System.Windows.Forms.Label();
+            this.PoorProbabilityLabel = new System.Windows.Forms.Label();
             this.GoodProbability = new System.Windows.Forms.NumericUpDown();
             this.FairProbability = new System.Windows.Forms.NumericUpDown();
             this.PoorProbabilty = new System.Windows.Forms.NumericUpDown();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DemandDistributionGrid = new System.Windows.Forms.DataGridView();
             this.Demand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.goodP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fairP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.poorP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartSimulationButton = new System.Windows.Forms.Button();
+            this.AutomaticTestingButton = new System.Windows.Forms.Button();
+            this.LoadFromFileButton = new System.Windows.Forms.Button();
+            this.ExportToFileButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NumOfNewsPapers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumofRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PurchasePrice)).BeginInit();
@@ -58,97 +62,104 @@
             ((System.ComponentModel.ISupportInitialize)(this.GoodProbability)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FairProbability)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PoorProbabilty)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DemandDistributionGrid)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // NumberOfNewspapersLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(73, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(282, 26);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Number of Newspapers : ";
+            this.NumberOfNewspapersLabel.AutoSize = true;
+            this.NumberOfNewspapersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NumberOfNewspapersLabel.Location = new System.Drawing.Point(67, 136);
+            this.NumberOfNewspapersLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.NumberOfNewspapersLabel.Name = "NumberOfNewspapersLabel";
+            this.NumberOfNewspapersLabel.Size = new System.Drawing.Size(200, 18);
+            this.NumberOfNewspapersLabel.TabIndex = 0;
+            this.NumberOfNewspapersLabel.Text = "Number of Newspapers : ";
             // 
-            // label2
+            // NumberOfRecordsLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(73, 128);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(239, 26);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Number of Records : ";
+            this.NumberOfRecordsLabel.AutoSize = true;
+            this.NumberOfRecordsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NumberOfRecordsLabel.Location = new System.Drawing.Point(67, 159);
+            this.NumberOfRecordsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.NumberOfRecordsLabel.Name = "NumberOfRecordsLabel";
+            this.NumberOfRecordsLabel.Size = new System.Drawing.Size(171, 18);
+            this.NumberOfRecordsLabel.TabIndex = 1;
+            this.NumberOfRecordsLabel.Text = "Number of Records : ";
             // 
-            // label3
+            // PurchasePriceLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(73, 181);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(195, 26);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Purchase Price : ";
+            this.PurchasePriceLabel.AutoSize = true;
+            this.PurchasePriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PurchasePriceLabel.Location = new System.Drawing.Point(67, 183);
+            this.PurchasePriceLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.PurchasePriceLabel.Name = "PurchasePriceLabel";
+            this.PurchasePriceLabel.Size = new System.Drawing.Size(138, 18);
+            this.PurchasePriceLabel.TabIndex = 2;
+            this.PurchasePriceLabel.Text = "Purchase Price : ";
             // 
-            // label4
+            // ScrapPriceLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(73, 237);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(157, 26);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Scrap Price : ";
+            this.ScrapPriceLabel.AutoSize = true;
+            this.ScrapPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ScrapPriceLabel.Location = new System.Drawing.Point(67, 206);
+            this.ScrapPriceLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.ScrapPriceLabel.Name = "ScrapPriceLabel";
+            this.ScrapPriceLabel.Size = new System.Drawing.Size(111, 18);
+            this.ScrapPriceLabel.TabIndex = 3;
+            this.ScrapPriceLabel.Text = "Scrap Price : ";
             // 
-            // label5
+            // SellingPriceLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(73, 293);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(168, 26);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Selling Price : ";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.SellingPriceLabel.AutoSize = true;
+            this.SellingPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SellingPriceLabel.Location = new System.Drawing.Point(67, 231);
+            this.SellingPriceLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.SellingPriceLabel.Name = "SellingPriceLabel";
+            this.SellingPriceLabel.Size = new System.Drawing.Size(117, 18);
+            this.SellingPriceLabel.TabIndex = 4;
+            this.SellingPriceLabel.Text = "Selling Price : ";
+            this.SellingPriceLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label6
+            // DayTypeLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(73, 354);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(273, 26);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Day Type Distributions : ";
+            this.DayTypeLabel.AutoSize = true;
+            this.DayTypeLabel.BackColor = System.Drawing.Color.Transparent;
+            this.DayTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DayTypeLabel.Location = new System.Drawing.Point(67, 268);
+            this.DayTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.DayTypeLabel.Name = "DayTypeLabel";
+            this.DayTypeLabel.Size = new System.Drawing.Size(193, 18);
+            this.DayTypeLabel.TabIndex = 5;
+            this.DayTypeLabel.Text = "Day Type Distributions : ";
             // 
             // NumOfNewsPapers
             // 
             this.NumOfNewsPapers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NumOfNewsPapers.Location = new System.Drawing.Point(361, 64);
+            this.NumOfNewsPapers.Location = new System.Drawing.Point(259, 136);
+            this.NumOfNewsPapers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.NumOfNewsPapers.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.NumOfNewsPapers.Name = "NumOfNewsPapers";
-            this.NumOfNewsPapers.Size = new System.Drawing.Size(183, 30);
+            this.NumOfNewsPapers.Size = new System.Drawing.Size(51, 23);
             this.NumOfNewsPapers.TabIndex = 6;
-            this.NumOfNewsPapers.ValueChanged += new System.EventHandler(this.NumOfNewsPapers_ValueChanged);
             // 
             // NumofRecords
             // 
             this.NumofRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NumofRecords.Location = new System.Drawing.Point(318, 128);
+            this.NumofRecords.Location = new System.Drawing.Point(259, 159);
+            this.NumofRecords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.NumofRecords.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.NumofRecords.Name = "NumofRecords";
-            this.NumofRecords.Size = new System.Drawing.Size(183, 30);
+            this.NumofRecords.Size = new System.Drawing.Size(51, 23);
             this.NumofRecords.TabIndex = 7;
-            this.NumofRecords.ValueChanged += new System.EventHandler(this.NumofRecords_ValueChanged);
             // 
             // PurchasePrice
             // 
@@ -159,16 +170,16 @@
             0,
             0,
             131072});
-            this.PurchasePrice.Location = new System.Drawing.Point(274, 181);
+            this.PurchasePrice.Location = new System.Drawing.Point(259, 180);
+            this.PurchasePrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PurchasePrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.PurchasePrice.Name = "PurchasePrice";
-            this.PurchasePrice.Size = new System.Drawing.Size(81, 30);
+            this.PurchasePrice.Size = new System.Drawing.Size(51, 23);
             this.PurchasePrice.TabIndex = 8;
-            this.PurchasePrice.ValueChanged += new System.EventHandler(this.PurchasePrice_ValueChanged);
             // 
             // ScrapPrice
             // 
@@ -179,16 +190,16 @@
             0,
             0,
             131072});
-            this.ScrapPrice.Location = new System.Drawing.Point(236, 237);
+            this.ScrapPrice.Location = new System.Drawing.Point(259, 203);
+            this.ScrapPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ScrapPrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.ScrapPrice.Name = "ScrapPrice";
-            this.ScrapPrice.Size = new System.Drawing.Size(76, 30);
+            this.ScrapPrice.Size = new System.Drawing.Size(51, 23);
             this.ScrapPrice.TabIndex = 9;
-            this.ScrapPrice.ValueChanged += new System.EventHandler(this.ScrapPrice_ValueChanged);
             // 
             // SellingPrice
             // 
@@ -199,46 +210,52 @@
             0,
             0,
             131072});
-            this.SellingPrice.Location = new System.Drawing.Point(247, 293);
+            this.SellingPrice.Location = new System.Drawing.Point(259, 227);
+            this.SellingPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.SellingPrice.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.SellingPrice.Name = "SellingPrice";
-            this.SellingPrice.Size = new System.Drawing.Size(75, 30);
+            this.SellingPrice.Size = new System.Drawing.Size(50, 23);
             this.SellingPrice.TabIndex = 10;
-            this.SellingPrice.ValueChanged += new System.EventHandler(this.SellingPrice_ValueChanged);
             // 
-            // label7
+            // GoodProbabilityLabel
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(85, 410);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(211, 25);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Good Day Probability : ";
+            this.GoodProbabilityLabel.AutoSize = true;
+            this.GoodProbabilityLabel.BackColor = System.Drawing.Color.Transparent;
+            this.GoodProbabilityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GoodProbabilityLabel.Location = new System.Drawing.Point(88, 294);
+            this.GoodProbabilityLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.GoodProbabilityLabel.Name = "GoodProbabilityLabel";
+            this.GoodProbabilityLabel.Size = new System.Drawing.Size(154, 17);
+            this.GoodProbabilityLabel.TabIndex = 11;
+            this.GoodProbabilityLabel.Text = "Good Day Probability : ";
             // 
-            // label8
+            // FairProbabiltyLabel
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(85, 453);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(196, 25);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Fair Day Probability : ";
+            this.FairProbabiltyLabel.AutoSize = true;
+            this.FairProbabiltyLabel.BackColor = System.Drawing.Color.Transparent;
+            this.FairProbabiltyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FairProbabiltyLabel.Location = new System.Drawing.Point(295, 292);
+            this.FairProbabiltyLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.FairProbabiltyLabel.Name = "FairProbabiltyLabel";
+            this.FairProbabiltyLabel.Size = new System.Drawing.Size(143, 17);
+            this.FairProbabiltyLabel.TabIndex = 12;
+            this.FairProbabiltyLabel.Text = "Fair Day Probability : ";
             // 
-            // label9
+            // PoorProbabilityLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(85, 494);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(204, 25);
-            this.label9.TabIndex = 13;
-            this.label9.Text = "Poor Day Probability : ";
+            this.PoorProbabilityLabel.AutoSize = true;
+            this.PoorProbabilityLabel.BackColor = System.Drawing.Color.Transparent;
+            this.PoorProbabilityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PoorProbabilityLabel.Location = new System.Drawing.Point(505, 292);
+            this.PoorProbabilityLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.PoorProbabilityLabel.Name = "PoorProbabilityLabel";
+            this.PoorProbabilityLabel.Size = new System.Drawing.Size(149, 17);
+            this.PoorProbabilityLabel.TabIndex = 13;
+            this.PoorProbabilityLabel.Text = "Poor Day Probability : ";
             // 
             // GoodProbability
             // 
@@ -249,16 +266,16 @@
             0,
             0,
             131072});
-            this.GoodProbability.Location = new System.Drawing.Point(302, 408);
+            this.GoodProbability.Location = new System.Drawing.Point(233, 291);
+            this.GoodProbability.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.GoodProbability.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.GoodProbability.Name = "GoodProbability";
-            this.GoodProbability.Size = new System.Drawing.Size(75, 30);
+            this.GoodProbability.Size = new System.Drawing.Size(50, 23);
             this.GoodProbability.TabIndex = 14;
-            this.GoodProbability.ValueChanged += new System.EventHandler(this.GoodProbability_ValueChanged);
             // 
             // FairProbability
             // 
@@ -269,16 +286,16 @@
             0,
             0,
             131072});
-            this.FairProbability.Location = new System.Drawing.Point(287, 451);
+            this.FairProbability.Location = new System.Drawing.Point(430, 289);
+            this.FairProbability.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.FairProbability.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.FairProbability.Name = "FairProbability";
-            this.FairProbability.Size = new System.Drawing.Size(75, 30);
+            this.FairProbability.Size = new System.Drawing.Size(50, 23);
             this.FairProbability.TabIndex = 15;
-            this.FairProbability.ValueChanged += new System.EventHandler(this.FairProbability_ValueChanged);
             // 
             // PoorProbabilty
             // 
@@ -289,33 +306,34 @@
             0,
             0,
             131072});
-            this.PoorProbabilty.Location = new System.Drawing.Point(295, 494);
+            this.PoorProbabilty.Location = new System.Drawing.Point(658, 289);
+            this.PoorProbabilty.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PoorProbabilty.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.PoorProbabilty.Name = "PoorProbabilty";
-            this.PoorProbabilty.Size = new System.Drawing.Size(75, 30);
+            this.PoorProbabilty.Size = new System.Drawing.Size(50, 23);
             this.PoorProbabilty.TabIndex = 16;
-            this.PoorProbabilty.ValueChanged += new System.EventHandler(this.PoorProbabilty_ValueChanged);
             // 
-            // dataGridView1
+            // DemandDistributionGrid
             // 
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DemandDistributionGrid.AllowUserToResizeColumns = false;
+            this.DemandDistributionGrid.AllowUserToResizeRows = false;
+            this.DemandDistributionGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DemandDistributionGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Demand,
             this.goodP,
             this.fairP,
             this.poorP});
-            this.dataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridView1.Location = new System.Drawing.Point(570, 64);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(667, 167);
-            this.dataGridView1.TabIndex = 17;
+            this.DemandDistributionGrid.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.DemandDistributionGrid.Location = new System.Drawing.Point(462, 133);
+            this.DemandDistributionGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DemandDistributionGrid.Name = "DemandDistributionGrid";
+            this.DemandDistributionGrid.RowTemplate.Height = 28;
+            this.DemandDistributionGrid.Size = new System.Drawing.Size(296, 123);
+            this.DemandDistributionGrid.TabIndex = 17;
             // 
             // Demand
             // 
@@ -337,32 +355,78 @@
             this.poorP.HeaderText = "Poor Probability";
             this.poorP.Name = "poorP";
             // 
+            // StartSimulationButton
+            // 
+            this.StartSimulationButton.Location = new System.Drawing.Point(319, 133);
+            this.StartSimulationButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StartSimulationButton.Name = "StartSimulationButton";
+            this.StartSimulationButton.Size = new System.Drawing.Size(134, 28);
+            this.StartSimulationButton.TabIndex = 18;
+            this.StartSimulationButton.Text = "Start Simulation";
+            this.StartSimulationButton.UseVisualStyleBackColor = true;
+            // 
+            // AutomaticTestingButton
+            // 
+            this.AutomaticTestingButton.Location = new System.Drawing.Point(319, 164);
+            this.AutomaticTestingButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AutomaticTestingButton.Name = "AutomaticTestingButton";
+            this.AutomaticTestingButton.Size = new System.Drawing.Size(134, 28);
+            this.AutomaticTestingButton.TabIndex = 19;
+            this.AutomaticTestingButton.Text = "Automatic Testing";
+            this.AutomaticTestingButton.UseVisualStyleBackColor = true;
+            // 
+            // LoadFromFileButton
+            // 
+            this.LoadFromFileButton.Location = new System.Drawing.Point(319, 196);
+            this.LoadFromFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LoadFromFileButton.Name = "LoadFromFileButton";
+            this.LoadFromFileButton.Size = new System.Drawing.Size(134, 28);
+            this.LoadFromFileButton.TabIndex = 20;
+            this.LoadFromFileButton.Text = "Load From File";
+            this.LoadFromFileButton.UseVisualStyleBackColor = true;
+            // 
+            // ExportToFileButton
+            // 
+            this.ExportToFileButton.Location = new System.Drawing.Point(319, 228);
+            this.ExportToFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ExportToFileButton.Name = "ExportToFileButton";
+            this.ExportToFileButton.Size = new System.Drawing.Size(134, 28);
+            this.ExportToFileButton.TabIndex = 21;
+            this.ExportToFileButton.Text = "Export To File";
+            this.ExportToFileButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1257, 631);
-            this.Controls.Add(this.dataGridView1);
+            this.BackgroundImage = global::NewspaperSellerSimulation.Properties.Resources.preview_;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(838, 410);
+            this.Controls.Add(this.ExportToFileButton);
+            this.Controls.Add(this.LoadFromFileButton);
+            this.Controls.Add(this.AutomaticTestingButton);
+            this.Controls.Add(this.StartSimulationButton);
+            this.Controls.Add(this.DemandDistributionGrid);
             this.Controls.Add(this.PoorProbabilty);
             this.Controls.Add(this.FairProbability);
             this.Controls.Add(this.GoodProbability);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.PoorProbabilityLabel);
+            this.Controls.Add(this.FairProbabiltyLabel);
+            this.Controls.Add(this.GoodProbabilityLabel);
             this.Controls.Add(this.SellingPrice);
             this.Controls.Add(this.ScrapPrice);
             this.Controls.Add(this.PurchasePrice);
             this.Controls.Add(this.NumofRecords);
             this.Controls.Add(this.NumOfNewsPapers);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.DayTypeLabel);
+            this.Controls.Add(this.SellingPriceLabel);
+            this.Controls.Add(this.ScrapPriceLabel);
+            this.Controls.Add(this.PurchasePriceLabel);
+            this.Controls.Add(this.NumberOfRecordsLabel);
+            this.Controls.Add(this.NumberOfNewspapersLabel);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NumOfNewsPapers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumofRecords)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PurchasePrice)).EndInit();
@@ -371,7 +435,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.GoodProbability)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FairProbability)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PoorProbabilty)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DemandDistributionGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,27 +443,31 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label NumberOfNewspapersLabel;
+        private System.Windows.Forms.Label NumberOfRecordsLabel;
+        private System.Windows.Forms.Label PurchasePriceLabel;
+        private System.Windows.Forms.Label ScrapPriceLabel;
+        private System.Windows.Forms.Label SellingPriceLabel;
+        private System.Windows.Forms.Label DayTypeLabel;
         private System.Windows.Forms.NumericUpDown NumOfNewsPapers;
         private System.Windows.Forms.NumericUpDown NumofRecords;
         private System.Windows.Forms.NumericUpDown PurchasePrice;
         private System.Windows.Forms.NumericUpDown ScrapPrice;
         private System.Windows.Forms.NumericUpDown SellingPrice;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label GoodProbabilityLabel;
+        private System.Windows.Forms.Label FairProbabiltyLabel;
+        private System.Windows.Forms.Label PoorProbabilityLabel;
         private System.Windows.Forms.NumericUpDown GoodProbability;
         private System.Windows.Forms.NumericUpDown FairProbability;
         private System.Windows.Forms.NumericUpDown PoorProbabilty;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView DemandDistributionGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Demand;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodP;
         private System.Windows.Forms.DataGridViewTextBoxColumn fairP;
         private System.Windows.Forms.DataGridViewTextBoxColumn poorP;
+        private System.Windows.Forms.Button StartSimulationButton;
+        private System.Windows.Forms.Button AutomaticTestingButton;
+        private System.Windows.Forms.Button LoadFromFileButton;
+        private System.Windows.Forms.Button ExportToFileButton;
     }
 }

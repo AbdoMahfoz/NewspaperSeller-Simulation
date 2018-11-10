@@ -2,7 +2,7 @@ NumOfNewspapers
 40
 
 NumOfRecords
-100
+10000000
 
 PurchasePrice
 0.33
