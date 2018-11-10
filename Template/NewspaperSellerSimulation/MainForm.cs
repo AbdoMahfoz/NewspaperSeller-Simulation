@@ -97,7 +97,9 @@ namespace NewspaperSellerSimulation
             do
             {
                 await Task.Run(() => Igniter.ParallelRun(system));
-                result = MessageBox.Show("Succesfully ran the following system:\n" + TestCaseManager.ToString(system) + "\nRun Again?", "Results", MessageBoxButtons.YesNoCancel);
+                SimulationTable TableViewer = new SimulationTable(system);
+                TableViewer.ShowDialog();
+                result = MessageBox.Show("Run Again?", "Results", MessageBoxButtons.YesNoCancel);
             }
             while (result == DialogResult.Yes);
             EnableAllControls();
@@ -170,7 +172,7 @@ namespace NewspaperSellerSimulation
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error exporting to file\nReason: " + ex.ToString());
+                MessageBox.Show("Error exporting to file\nReason: " + ex.Message);
                 return;
             }
             MessageBox.Show("Successfully exported to file");

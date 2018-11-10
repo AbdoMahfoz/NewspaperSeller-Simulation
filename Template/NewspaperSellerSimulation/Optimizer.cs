@@ -53,6 +53,8 @@ namespace NewspaperSellerSimulation
         /// <returns>The best possible newspaper count</returns>
         static public int TernarySearch(SimulationSystem system)
         {
+            system.SimulationTable.Clear();
+            system.PerformanceMeasures = new PerformanceMeasures();
             Igniter.ParallelRun(system);
             SimulationSystem LeftSystem = system.Clone() as SimulationSystem;
             SimulationSystem RightSystem = system.Clone() as SimulationSystem;
