@@ -15,90 +15,97 @@ namespace NewspaperSellerSimulation
         /// </summary>
         private Random rnd;
         /// <summary>
-        /// The task queue that worker threads get their work from
-        /// </summary>
-        private Queue<SimulationCase> TaskQueue;
-        /// <summary>
         /// The simulation system currently in use
         /// </summary>
         private SimulationSystem CurrentSystem;
         /// <summary>
-        /// Synchronizes TaskQueue access
+        /// Descripes wether this parallel run is a full run or re-evaluation run
         /// </summary>
-        private Mutex m;
+        private Enums.RunningMode RunningMode;
         /// <summary>
-        /// Worker thread function
+        /// Work list in which all threads write their work
         /// </summary>
-        private void ParallelRunHelper()
-        {
-            int n = 0;
-            while (true)
-            {
-                SimulationCase c;
-                m.WaitOne();
-                if (TaskQueue.Count == 0)
-                {
-                    m.ReleaseMutex();
-                    break;
-                }
-                else
-                {
-                    c = TaskQueue.Dequeue();
-                }
-                m.ReleaseMutex();
-                n++;
-                Simulator.SimulationMain(c, CurrentSystem, rnd);
-            }
-            Console.WriteLine("Thread \"" + Thread.CurrentThread.Name + "\" simulated " + n + " cases");
-        }
+        private SimulationCase[] WorkList;
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Igniter()
+        private Igniter()
         {
-            m = new Mutex();
-            TaskQueue = new Queue<SimulationCase>();
+            WorkList = null;
             CurrentSystem = null;
+        }
+        /// <summary>
+        /// Worker thread function
+        /// </summary>
+        private void ParallelRunHelper(object num)
+        {
+            int i = (int)num;
+            while (i < CurrentSystem.NumOfRecords)
+            {
+                if(RunningMode == Enums.RunningMode.FullRun)
+                {
+                    SimulationCase c = new SimulationCase()
+                    {
+                        DayNo = i + 1
+                    };
+                    Simulator.SimulationMain(c, CurrentSystem, rnd);
+                    WorkList[i] = c;
+                }
+                else
+                {
+                    Simulator.ReEvaluateProfit(CurrentSystem.SimulationTable[i], CurrentSystem);
+                }
+                i += Environment.ProcessorCount;
+            }
+        }
+        /// <summary>
+        /// Runs the simulation concurrently for this instance of Igniter class
+        /// </summary>
+        /// <param name="system">System to be simulated</param>
+        /// <param name="rnd">Random number generator instance</param>
+        private void ParallelRunStarter(SimulationSystem system, Random rnd = null)
+        {
+            this.rnd = rnd;
+            CurrentSystem = system;
+            if(RunningMode == Enums.RunningMode.FullRun)
+            {
+                WorkList = new SimulationCase[CurrentSystem.NumOfRecords];
+            }
+            Thread[] threads = new Thread[Environment.ProcessorCount];
+            for (int i = 0; i < Environment.ProcessorCount; i++)
+            {
+                threads[i] = new Thread(new ParameterizedThreadStart(ParallelRunHelper))
+                {
+                    Name = "Parallel Run #" + i.ToString() + " - " + GetHashCode().ToString()
+                };
+                threads[i].Start(i);
+            }
+            foreach (Thread t in threads)
+            {
+                t.Join();
+            }
+            if(RunningMode == Enums.RunningMode.FullRun)
+            {
+                CurrentSystem.SimulationTable = new List<SimulationCase>(WorkList);
+            }
         }
         /// <summary>
         /// Runs the simulation through multiple threads
         /// </summary>
         /// <param name="system">The system to be simulated</param>
-        public void ParallelRun(SimulationSystem system, Random rnd = null)
+        /// <param name="rnd">Random number generator instance</param>
+        static public void ParallelRun(SimulationSystem system, Random rnd = null)
         {
-            if(rnd == null)
-            {
-                this.rnd = new Random(12345);
-            }
-            else
-            {
-                this.rnd = rnd;
-            }
-            CurrentSystem = system;
-            m.WaitOne();
-            Thread[] threads = new Thread[Environment.ProcessorCount];
-            for (int i = 0; i < Environment.ProcessorCount; i++)
-            {
-                threads[i] = new Thread(new ThreadStart(ParallelRunHelper))
-                {
-                    Name = "Parallel Run #" + i.ToString() + " - " + GetHashCode().ToString()
-                };
-                threads[i].Start();
-            }
-            for (int i = 0; i < system.NumOfRecords; i++)
-            {
-                SimulationCase c = new SimulationCase
-                {
-                    DayNo = i + 1
-                };
-                TaskQueue.Enqueue(c);
-                system.SimulationTable.Add(c);
-            }
-            m.ReleaseMutex();
-            foreach (Thread t in threads)
-            {
-                t.Join();
-            }
+            new Igniter() { RunningMode = Enums.RunningMode.FullRun }.ParallelRunStarter(system, rnd);
+        }
+        /// <summary>
+        /// Re-evaluates concurrently the system profit based on the pre-determined demand values
+        /// </summary>
+        /// <param name="system">The system to be re-evaluated</param>
+        static public void ParallelReEvaluationRun(SimulationSystem system)
+        {
+            system.PerformanceMeasures = new PerformanceMeasures();
+            new Igniter() { RunningMode = Enums.RunningMode.ReEvaluationRun }.ParallelRunStarter(system);
         }
         /// <summary>
         /// Runs the simulation sequentially
@@ -112,11 +119,20 @@ namespace NewspaperSellerSimulation
                 {
                     DayNo = i + 1
                 };
-                if(rnd == null)
-                    Simulator.SimulationMain(c, system);
-                else
-                    Simulator.SimulationMain(c, system, rnd);
+                Simulator.SimulationMain(c, system, rnd);
                 system.SimulationTable.Add(c);
+            }
+        }
+        /// <summary>
+        /// Re-evalutes sequntially the system's profit based on predetermined demand values
+        /// </summary>
+        /// <param name="system">The system to be re-evaluated</param>
+        static public void SequntialReEvaluationRun(SimulationSystem system)
+        {
+            system.PerformanceMeasures = new PerformanceMeasures();
+            foreach(SimulationCase c in system.SimulationTable)
+            {
+                Simulator.ReEvaluateProfit(c, system);
             }
         }
     }

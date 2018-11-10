@@ -14,5 +14,10 @@ namespace NewspaperSellerModels
             Fair = 1,
             Poor = 2
         }
+        public enum RunningMode
+        {
+            FullRun = 0,
+            ReEvaluationRun = 1
+        }
     }
 }

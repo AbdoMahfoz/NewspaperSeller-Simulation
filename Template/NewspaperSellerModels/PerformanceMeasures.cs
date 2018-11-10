@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NewspaperSellerModels
 {
-    public class PerformanceMeasures
+    public class PerformanceMeasures : ICloneable
     {
         public decimal TotalSalesProfit { get; set; }
         public decimal TotalCost { get; set; }
@@ -15,5 +15,9 @@ namespace NewspaperSellerModels
         public decimal TotalNetProfit { get; set; }
         public int DaysWithMoreDemand { get; set; }
         public int DaysWithUnsoldPapers { get; set; }
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

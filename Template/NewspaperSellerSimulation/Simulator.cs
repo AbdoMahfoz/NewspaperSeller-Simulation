@@ -11,10 +11,6 @@ namespace NewspaperSellerSimulation
     static class Simulator
     {
         /// <summary>
-        /// Synchronoizes access to Random number generator
-        /// </summary>
-        static Mutex m = new Mutex();
-        /// <summary>
         /// Random variabel generator
         /// </summary>
         static Random rnd = new Random(12345);
@@ -46,7 +42,7 @@ namespace NewspaperSellerSimulation
                     Current.CummProbability = Current.Probability + Previous.CummProbability;
                     Current.MinRange = Previous.MaxRange + 1;
                 }
-                Current.MaxRange = (int)Current.CummProbability * 100;
+                Current.MaxRange = (int)(Current.CummProbability * 100);
                 Current.IsCalculated = true;
             }
             if(RandomNumber <= Current.MaxRange && RandomNumber >= Current.MinRange)
@@ -105,40 +101,51 @@ namespace NewspaperSellerSimulation
             throw new Exception("Couldn't determine demand value");
         }
         /// <summary>
-        /// Calculates the values of a single simulation case with the internal random generator
+        /// Calculates the values of a single simulation case
         /// </summary>
         /// <param name="Case">The case that needs to be filled</param>
         /// <param name="system">The entire simulation system</param>
-        static public void SimulationMain(SimulationCase Case, SimulationSystem system)
+        /// <param name="rnd">The random number generator, uses the internal random generator if null</param>
+        static public void SimulationMain(SimulationCase Case, SimulationSystem system, Random rnd = null)
         {
-            SimulationMain(Case, system, rnd);
+            if(rnd == null)
+            {
+                rnd = Simulator.rnd;
+            }
+            Case.RandomNewsDayType = rnd.Next(1, 100);
+            Case.RandomDemand = rnd.Next(1, 100);
+            Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
+            Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
+            ReEvaluateProfit(Case, system);
         }
         /// <summary>
-        /// Calculates the values of a single simulation case with specified random generator
+        /// Re-evaluates the profit of the given case using the pre-calculated demand value
         /// </summary>
-        /// <param name="Case">The case that needs to be filled</param>
+        /// <param name="Case">The simulation case to be re-evaluated</param>
         /// <param name="system">The entire simulation system</param>
-        /// <param name="rnd">The random number generator</param>
-        static public void SimulationMain(SimulationCase Case, SimulationSystem system, Random rnd)
+        static public void ReEvaluateProfit(SimulationCase Case, SimulationSystem system)
         {
-            m.WaitOne();
-            Case.RandomNewsDayType = rnd.Next(0, 99);
-            m.ReleaseMutex();
-            Case.NewsDayType = CalculateDistribution(system.DayTypeDistributions, Case.RandomNewsDayType);
-            m.WaitOne();
-            Case.RandomDemand = rnd.Next(0, 99);
-            m.ReleaseMutex();
-            Case.Demand = CalculateDistribution(system.DemandDistributions, Case.NewsDayType, Case.RandomDemand);
-            Case.SalesProfit = Case.Demand * system.SellingPrice;
-            Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * system.SellingPrice;
+            Case.SalesProfit = Math.Min(system.NumOfNewspapers, Case.Demand) * system.SellingPrice;
+            Case.LostProfit = Math.Max(0, Case.Demand - system.NumOfNewspapers) * (system.SellingPrice - system.PurchasePrice);
             Case.ScrapProfit = Math.Max(0, system.NumOfNewspapers - Case.Demand) * system.ScrapPrice;
             Case.DailyCost = system.NumOfNewspapers * system.PurchasePrice;
             Case.DailyNetProfit = Case.SalesProfit - Case.DailyCost - Case.LostProfit + Case.ScrapProfit;
-            system.PerformanceMeasures.TotalSalesProfit += Case.SalesProfit;
-            system.PerformanceMeasures.TotalLostProfit += Case.LostProfit;
-            system.PerformanceMeasures.TotalScrapProfit += Case.ScrapProfit;
-            system.PerformanceMeasures.TotalCost += Case.DailyCost;
-            system.PerformanceMeasures.TotalNetProfit += Case.DailyNetProfit;
+            lock (system)
+            {
+                system.PerformanceMeasures.TotalSalesProfit += Case.SalesProfit;
+                system.PerformanceMeasures.TotalLostProfit += Case.LostProfit;
+                system.PerformanceMeasures.TotalScrapProfit += Case.ScrapProfit;
+                system.PerformanceMeasures.TotalCost += Case.DailyCost;
+                system.PerformanceMeasures.TotalNetProfit += Case.DailyNetProfit;
+                if (Case.Demand > system.NumOfNewspapers)
+                {
+                    system.PerformanceMeasures.DaysWithMoreDemand++;
+                }
+                if (Case.Demand < system.NumOfNewspapers)
+                {
+                    system.PerformanceMeasures.DaysWithUnsoldPapers++;
+                }
+            }
         }
     }
 }

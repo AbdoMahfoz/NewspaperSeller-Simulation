@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NewspaperSellerTesting;
+using NewspaperSellerModels;
+using System.IO;
+using System.Diagnostics;
 
 namespace NewspaperSellerSimulation
 {

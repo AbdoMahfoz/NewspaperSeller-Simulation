@@ -27,7 +27,7 @@ namespace NewspaperSellerSimulation
                 minRange = value;
             }
         }
-        private static int maxRange = 10000000;
+        private static int maxRange = 10000;
         /// <summary>
         /// Maximum possible newspaper count to be bought
         /// </summary>
@@ -53,39 +53,42 @@ namespace NewspaperSellerSimulation
         /// <returns>The best possible newspaper count</returns>
         static public int TernarySearch(SimulationSystem system)
         {
+            Igniter.ParallelRun(system);
             SimulationSystem LeftSystem = system.Clone() as SimulationSystem;
             SimulationSystem RightSystem = system.Clone() as SimulationSystem;
-            int Start = MinRange / 10, End = MaxRange / 10, Left, Right, Ans = -1;
+            int Start = MinRange / 10, End = MaxRange / 10, Left, Right;
             while(Start <= End)
             {
-                Left = (2 * Start + End) / 3;
-                Right = (Start + 2 * End) / 3;
+                Left = Start + (End - Start)/ 3;
+                Right = End - (End - Start)/ 3;
+                if(Left == Start && Right == End)
+                {
+                    return ((Left + Right) * 10) / 2;
+                }
                 LeftSystem.NumOfNewspapers = Left * 10;
                 RightSystem.NumOfNewspapers = Right * 10;
                 Task[] tasks = new Task[]
                 {
                     Task.Run(()=>
                     {
-                        new Igniter().ParallelRun(LeftSystem, new System.Random(12345));
+                        Igniter.ParallelReEvaluationRun(LeftSystem);
                     }),
                     Task.Run(()=>
                     {
-                        new Igniter().ParallelRun(RightSystem, new System.Random(12345));
+                        Igniter.ParallelReEvaluationRun(RightSystem);
                     })
                 };
                 Task.WaitAll(tasks);
                 if (LeftSystem.PerformanceMeasures.TotalNetProfit < RightSystem.PerformanceMeasures.TotalNetProfit)
                 {
-                    Ans = Right * 10;
                     Start = Left;
                 }
                 else
                 {
-                    Ans = Left * 10;
                     End = Right;
                 }
             }
-            return Ans;
+            throw new System.Exception("???");
         }
         /// <summary>
         /// Searches linearly for the best newspaper count through the entire range
@@ -94,13 +97,13 @@ namespace NewspaperSellerSimulation
         /// <returns>The best possible newspaper count in the range</returns>
         static public int LinearSearch(SimulationSystem system)
         {
+            Igniter.SequntialRun(system);
             int Ans = 0;
             decimal MaxAns = 0;
             for(int i = MinRange / 10; i <= MaxRange / 10; i++)
             {
                 system.NumOfNewspapers = i * 10;
-                Simulator.ResetRandom();
-                Igniter.SequntialRun(system);
+                Igniter.SequntialReEvaluationRun(system);
                 if(system.PerformanceMeasures.TotalNetProfit > MaxAns)
                 {
                     Ans = i * 10;
